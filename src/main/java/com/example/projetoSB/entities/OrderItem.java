@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import com.example.projetoSB.entities.pk.OrderItemPK;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -70,6 +71,12 @@ public class OrderItem implements Serializable{
 	public int hashCode() {
 		return Objects.hash(id);
 	}
+	
+	@JsonProperty("subtotal")
+	public Double subTotal() {
+		return price * quantity;
+	}
+	
 
 	@Override
 	public boolean equals(Object obj) {

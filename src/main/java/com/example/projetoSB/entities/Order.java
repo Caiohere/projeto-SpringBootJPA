@@ -8,6 +8,8 @@ import java.util.Set;
 
 import com.example.projetoSB.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -34,6 +36,7 @@ public class Order implements Serializable {
 	
 	private Integer orderStatus;
 	
+	@JsonIgnore
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 	private Payment payment;
 	
@@ -102,6 +105,16 @@ public class Order implements Serializable {
 	public void setPayment(Payment payment) {
 		this.payment = payment;
 	}
+	
+	@JsonProperty("total")
+	public Double total() {
+		Double sum = 0.0;
+		for (OrderItem x : items) {
+			sum += x.subTotal();
+		}
+		return sum;
+	}
+	
 
 	@Override
 	public int hashCode() {
